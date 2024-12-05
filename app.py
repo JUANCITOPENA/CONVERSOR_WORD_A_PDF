@@ -1,14 +1,26 @@
 import os
-from pathlib import Path 
 import streamlit as st
-from docx2pdf import convert  # Necesitarás instalar esta librería
+import pythoncom
+from docx2pdf import convert
 
 def convert_docx_to_pdf(docx_file, pdf_path):
-    convert(docx_file, pdf_path)
+    try:
+        # Initialize COM library
+        pythoncom.CoInitialize()
+        try:
+            convert(docx_file, pdf_path)
+        finally:
+            # Uninitialize COM library
+            pythoncom.CoUninitialize()
+    except Exception as e:
+        st.error(f"Error converting {docx_file} to PDF: {e}")
 
 def main():
-    st.title("Conversor de Word a PDF")
-    st.write("Selecciona los archivos Word para convertirlos a PDF.")
+    st.markdown("""
+        <h1 style="text-align: center;">Conversor de Word a PDF</h1>
+        <h3 style="text-align: center;">Creado por Juancito Pena</h3>
+        <p style="text-align: center;">Selecciona los archivos Word para convertirlos a PDF.</p>
+    """, unsafe_allow_html=True)
     
     uploaded_files = st.file_uploader("Elige archivos Word (.docx)", type=["docx"], accept_multiple_files=True)
     
@@ -28,11 +40,12 @@ def main():
         with st.spinner("Convirtiendo documentos..."):
             for uploaded_file in uploaded_files:
                 temp_file_path = os.path.join(output_folder, uploaded_file.name)
-                pdf_path = os.path.join(output_folder, f"{Path(uploaded_file.name).stem}.pdf")
+                pdf_path = os.path.join(output_folder, f"{os.path.splitext(uploaded_file.name)[0]}.pdf")
                 
                 with open(temp_file_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
                 
+                # Convertir .docx a PDF
                 convert_docx_to_pdf(temp_file_path, pdf_path)
                 
                 os.remove(temp_file_path)
