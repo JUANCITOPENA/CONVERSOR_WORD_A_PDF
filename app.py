@@ -1,18 +1,17 @@
 import os
 from pathlib import Path
 import streamlit as st
-from docx2pdf import convert
-import pythoncom  # Asegúrate de importar pythoncom
 import pypandoc
 
+# Verificar si Pandoc está instalado y descargarlo si no lo está
+if not pypandoc.get_pandoc_path():
+    pypandoc.download_pandoc()
+
 def convert_docx_to_pdf(docx_file, pdf_path):
-    convert(docx_file, pdf_path)
+    # Convertir el archivo .docx a .pdf usando pypandoc
+    pypandoc.convert_file(docx_file, 'pdf', outputfile=pdf_path)
 
 def main():
-    # Inicializa COM
-    pythoncom.CoInitialize()  # Llama a CoInitialize para el hilo actual
-    
-    # Centrar el título y agregar un subtítulo
     st.markdown("""
         <h1 style="text-align: center;">Conversor de Word a PDF</h1>
         <h3 style="text-align: center;">Creado por Juancito Pena</h3>
