@@ -1,25 +1,14 @@
 import os
-from pathlib import Path
+from pathlib import Path 
 import streamlit as st
-import pypandoc
-
-# Verificar si Pandoc está instalado y descargarlo si no lo está
-if not pypandoc.get_pandoc_path():
-    pypandoc.download_pandoc()
+from docx2pdf import convert  # Necesitarás instalar esta librería
 
 def convert_docx_to_pdf(docx_file, pdf_path):
-    try:
-        # Convertir el archivo .docx a .pdf usando pypandoc
-        pypandoc.convert_file(docx_file, 'pdf', outputfile=pdf_path)
-    except Exception as e:
-        st.error(f"Error al convertir el archivo {docx_file} a PDF: {e}")
+    convert(docx_file, pdf_path)
 
 def main():
-    st.markdown("""
-        <h1 style="text-align: center;">Conversor de Word a PDF</h1>
-        <h3 style="text-align: center;">Creado por Juancito Pena</h3>
-        <p style="text-align: center;">Selecciona los archivos Word para convertirlos a PDF.</p>
-    """, unsafe_allow_html=True)
+    st.title("Conversor de Word a PDF")
+    st.write("Selecciona los archivos Word para convertirlos a PDF.")
     
     uploaded_files = st.file_uploader("Elige archivos Word (.docx)", type=["docx"], accept_multiple_files=True)
     
@@ -44,7 +33,6 @@ def main():
                 with open(temp_file_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
                 
-                # Convertir .docx a PDF
                 convert_docx_to_pdf(temp_file_path, pdf_path)
                 
                 os.remove(temp_file_path)
