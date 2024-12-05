@@ -23,7 +23,7 @@ Antes de comenzar, asegúrate de tener instalado:
 Clona el repositorio y instala las dependencias:
 
 ```bash
-git clone https://github.com/tu-usuario/docx-to-pdf-converter.git
+git clone  https://github.com/JUANCITOPENA/CONVERSOR_WORD_A_PDF.git
 cd docx-to-pdf-converter
 pip install -r requirements.txt
 ```
