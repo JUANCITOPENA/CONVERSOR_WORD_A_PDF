@@ -1,0 +1,7 @@
+os
+pathlib
+streamlit
+python-docx
+fpdf
+streamlit-fs-browser
+docx2pdf
