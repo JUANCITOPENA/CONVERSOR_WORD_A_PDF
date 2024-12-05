@@ -8,8 +8,11 @@ if not pypandoc.get_pandoc_path():
     pypandoc.download_pandoc()
 
 def convert_docx_to_pdf(docx_file, pdf_path):
-    # Convertir el archivo .docx a .pdf usando pypandoc
-    pypandoc.convert_file(docx_file, 'pdf', outputfile=pdf_path)
+    try:
+        # Convertir el archivo .docx a .pdf usando pypandoc
+        pypandoc.convert_file(docx_file, 'pdf', outputfile=pdf_path)
+    except Exception as e:
+        st.error(f"Error al convertir el archivo {docx_file} a PDF: {e}")
 
 def main():
     st.markdown("""
@@ -41,6 +44,7 @@ def main():
                 with open(temp_file_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
                 
+                # Convertir .docx a PDF
                 convert_docx_to_pdf(temp_file_path, pdf_path)
                 
                 os.remove(temp_file_path)
