@@ -1,3 +1,2 @@
 streamlit
 docx2pdf
-pywin32
