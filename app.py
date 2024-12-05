@@ -3,6 +3,7 @@ from pathlib import Path
 import streamlit as st
 from docx2pdf import convert
 import pythoncom  # Asegúrate de importar pythoncom
+import pypandoc
 
 def convert_docx_to_pdf(docx_file, pdf_path):
     convert(docx_file, pdf_path)
