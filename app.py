@@ -2,6 +2,8 @@ import os
 import tempfile
 import streamlit as st
 import pypandoc
+pypandoc.download_pandoc()
+
 
 def convert_docx_to_pdf(docx_file, pdf_path):
     try:
